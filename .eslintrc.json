@@ -1,0 +1,56 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "airbnb",
+    "plugin:jsx-a11y/recommended",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "plugin:import/recommended"
+  ],
+  "overrides": [],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react", "@typescript-eslint", "prettier", "import"],
+  "rules": {
+    "import/extensions": [
+      // import시 확장자 명은 사용하지 않음
+      "off"
+    ],
+    "react/jsx-filename-extension": [
+      // jsx 사용 가능한 확장자 설정
+      2,
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    ],
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "import/prefer-default-export": "off", // export default 권장 off
+    "react/react-in-jsx-scope": "off", // jsx를 사용해도 React 반드시 import 안해도됨
+    "react/jsx-props-no-spreading": ["off"], // ... 허용
+    "react/no-array-index-key": "off", // key값으로 index 사용 가능
+    "arrow-body-style": "off", // 화살표 함수 안에 return 사용 가능
+    "import/no-unresolved": "off",
+    "no-shadow": "off",
+    "consistent-return": "off",
+    "import/no-extraneous-dependencies": "off",
+    "react/require-default-props": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "react/prop-types": "off",
+    "react/no-children-prop": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
+}
