@@ -24,6 +24,7 @@ function RegisterRoomBedrooms() {
     setRoom((prev) => {
       return {
         ...prev,
+        // 새로운 배열 반환
         bedList: Array.from(Array(value), (_, index) => ({
           id: index + 1,
           beds: [],
