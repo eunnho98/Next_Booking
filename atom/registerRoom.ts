@@ -8,7 +8,7 @@ export type RegisterRoomState = {
   bedroomCount: number;
   bedCount: number;
   bedList: { id: number; beds: { type: BedType; count: number }[] }[];
-  publicBedList: { type: BedType; count: number }[];
+  bathroomCount: number;
 };
 
 export const roomState = atom<RegisterRoomState>({
@@ -20,7 +20,7 @@ export const roomState = atom<RegisterRoomState>({
     bedroomCount: 0,
     bedCount: 0,
     bedList: [],
-    publicBedList: [],
+    bathroomCount: 0,
   },
   dangerouslyAllowMutability: true,
 });
