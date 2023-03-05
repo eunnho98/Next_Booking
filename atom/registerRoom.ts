@@ -18,7 +18,7 @@ export const roomState = atom<RegisterRoomState>({
     buildingType: null,
     roomType: null,
     bedroomCount: 0,
-    bedCount: 1,
+    bedCount: 0,
     bedList: [],
     publicBedList: [],
   },
