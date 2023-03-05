@@ -22,6 +22,7 @@ export const roomState = atom<RegisterRoomState>({
     bedList: [],
     publicBedList: [],
   },
+  dangerouslyAllowMutability: true,
 });
 
 interface IGuestNum {
