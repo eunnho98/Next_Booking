@@ -85,6 +85,7 @@ function RegisterRoomBedTypes({ bedroom }: IProps) {
                     bedroom.beds.find((bed) => bed.type === type)?.count || 0
                   }
                   key={type}
+                  // ! Need Refactoring
                   onChange={(value: number) => {
                     const nBL = [...newBedList.bedList];
                     const newBeds = [...bedroom.beds];
