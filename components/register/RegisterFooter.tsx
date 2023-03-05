@@ -7,7 +7,7 @@ interface IProps {
   prevLink?: string;
   nextLink?: string;
   onSubmit: (data: any) => void;
-  isValid: boolean;
+  isValid?: boolean;
 }
 
 function RegisterFooter({ prevLink, nextLink, onSubmit, isValid }: IProps) {
