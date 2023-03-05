@@ -1,7 +1,8 @@
+import RegisterRoomLocation from '@/components/register/RegisterRoomLocation';
 import React from 'react';
 
 function location() {
-  return <div>location</div>;
+  return <RegisterRoomLocation />;
 }
 
 export default location;
