@@ -41,7 +41,20 @@ function RegisterRoomBedrooms() {
     });
   };
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    let total = 0;
+    room.bedList.forEach((bed) => {
+      bed.beds.forEach((b) => {
+        total += b.count;
+      });
+    });
+    setRoom((prev) => {
+      return {
+        ...prev,
+        bedCount: total,
+      };
+    });
+  };
   return (
     <form
       onSubmit={() => {

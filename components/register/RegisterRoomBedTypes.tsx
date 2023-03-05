@@ -37,8 +37,9 @@ function RegisterRoomBedTypes({ bedroom }: IProps) {
     bedroom.beds.forEach((bed) => {
       total += bed.count;
     });
+
     return total;
-  }, [bedroom]);
+  }, [bedroom.beds]);
 
   useEffect(() => {
     console.log(newBedList);
