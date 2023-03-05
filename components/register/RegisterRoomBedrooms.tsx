@@ -5,6 +5,7 @@ import { Box, Button, Stack, Text, UnorderedList } from '@chakra-ui/react';
 import { roomState } from '@/atom/registerRoom';
 import Counter from '../common/Counter';
 import RegisterRoomBedTypes from './RegisterRoomBedTypes';
+import RegisterFooter from './RegisterFooter';
 
 interface IForm extends FieldValues {
   bedroom: string;
@@ -34,11 +35,13 @@ function RegisterRoomBedrooms() {
     });
   };
 
-  useEffect(() => {
-    console.log(room);
-  }, [room]);
+  const onSubmit = () => {};
   return (
-    <form>
+    <form
+      onSubmit={() => {
+        handleSubmit(onSubmit)();
+      }}
+    >
       <Box p="62px 30px 100px">
         <Text as="h2" fontSize="24px" fontWeight="800" mb="50px">
           침실 및 침대 개수를 고르세요.
@@ -75,6 +78,12 @@ function RegisterRoomBedrooms() {
           ))}
         </UnorderedList>
       </Box>
+      <RegisterFooter
+        prevLink="/room/register/building"
+        nextLink="/room/register/bathroom"
+        onSubmit={onSubmit}
+        isValid={true}
+      />
     </form>
   );
 }

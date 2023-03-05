@@ -1,8 +1,12 @@
+import { bedTypes } from '@/lib/staticData';
 import { BedType } from '@/lib/type';
 import { Box, Button, ListItem, Stack, Text } from '@chakra-ui/react';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import CommonSelector from '../common/CommonSelector';
+import Counter from '../common/Counter';
+import { roomState } from '../../atom/registerRoom';
 
 interface IProps {
   bedroom: {
@@ -16,8 +20,16 @@ interface IProps {
 
 function RegisterRoomBedTypes({ bedroom }: IProps) {
   const [opened, setOpened] = useState(false);
-
+  const [newBedList, setNewBedList] = useRecoilState(roomState);
   const { handleSubmit, control } = useForm();
+
+  // 선택 침대 옵션
+  const [activatedBed, setActivatedBed] = useState<BedType[]>([]);
+
+  // 남은 침대 옵션
+  const lastBed = useMemo(() => {
+    return bedTypes.filter((bedType) => !activatedBed.includes(bedType));
+  }, [bedroom, activatedBed]);
 
   // 총 침대 개수
   const totalBedsCount = useMemo(() => {
@@ -27,6 +39,10 @@ function RegisterRoomBedTypes({ bedroom }: IProps) {
     });
     return total;
   }, [bedroom]);
+
+  useEffect(() => {
+    console.log(newBedList);
+  }, [newBedList]);
   return (
     <ListItem
       w="100%"
@@ -57,11 +73,50 @@ function RegisterRoomBedTypes({ bedroom }: IProps) {
       </Stack>
       {opened && (
         <Box w="320px">
+          <Box w="100%" mt="28px">
+            {activatedBed.map((type) => (
+              <Box w="290px" mb="18px">
+                <Counter
+                  control={control}
+                  name="bedType"
+                  label={type}
+                  value={
+                    bedroom.beds.find((bed) => bed.type === type)?.count || 0
+                  }
+                  key={type}
+                  onChange={(value: number) => {
+                    const nBL = [...newBedList.bedList];
+                    const newBeds = [...bedroom.beds];
+                    const idx = newBeds.findIndex((bed) => bed.type === type);
+                    if (idx === -1) {
+                      newBeds.push({ type: type, count: value });
+                    } else {
+                      newBeds[idx].count = value;
+                    }
+
+                    const bedIdx = nBL.findIndex(
+                      (bed) => bed.id === bedroom.id,
+                    );
+                    nBL[bedIdx].beds = newBeds;
+                    setNewBedList((prev) => {
+                      return {
+                        ...prev,
+                        bedList: nBL,
+                      };
+                    });
+                  }}
+                />
+              </Box>
+            ))}
+          </Box>
           <CommonSelector
             control={control}
             name="bed"
             placeholder="선택해주세요."
-            options={['gsg']}
+            options={lastBed}
+            myChange={(e) => {
+              setActivatedBed([...activatedBed, e.target.value as BedType]);
+            }}
           />
         </Box>
       )}
