@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Box, Button, Stack, Text, UnorderedList } from '@chakra-ui/react';
@@ -14,6 +14,9 @@ interface IForm extends FieldValues {
 
 function RegisterRoomBedrooms() {
   const [room, setRoom] = useRecoilState(roomState);
+
+  const [valid, setValid] = useState([false, false]);
+  const [can, setCan] = useState(false);
 
   const {
     handleSubmit,
@@ -40,6 +43,34 @@ function RegisterRoomBedrooms() {
       };
     });
   };
+
+  // Validation
+  useEffect(() => {
+    let flag = true;
+    room.bedList.some((bed) => {
+      let total = 0;
+      bed.beds.forEach((b) => {
+        total += b.count;
+      });
+      if (total === 0) {
+        flag = false; // valid X
+        return true;
+      }
+    });
+    if (flag) {
+      const newValid = [...valid];
+      newValid[1] = true;
+      setValid(newValid);
+    } else {
+      const newValid = [...valid];
+      newValid[1] = false;
+      setValid(newValid);
+    }
+  }, [room.bedList, room.bedroomCount]);
+
+  useEffect(() => {
+    setCan(!valid.includes(false));
+  }, [can, valid]);
 
   const onSubmit = () => {
     let total = 0;
@@ -83,7 +114,18 @@ function RegisterRoomBedrooms() {
             name="bedroom"
             label="침실 개수"
             value={room.bedroomCount}
-            onChange={onChangeBedroom}
+            onChange={(value) => {
+              onChangeBedroom(value);
+              if (value === 0) {
+                const newValid = [...valid];
+                newValid[0] = false;
+                setValid(newValid);
+              } else {
+                const newValid = [...valid];
+                newValid[0] = true;
+                setValid(newValid);
+              }
+            }}
           />
         </Box>
 
@@ -101,7 +143,7 @@ function RegisterRoomBedrooms() {
         prevLink="/room/register/building"
         nextLink="/room/register/bathroom"
         onSubmit={onSubmit}
-        isValid={true}
+        isValid={can}
       />
     </form>
   );
