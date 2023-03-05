@@ -9,6 +9,14 @@ export type RegisterRoomState = {
   bedCount: number;
   bedList: { id: number; beds: { type: BedType; count: number }[] }[];
   bathroomCount: number;
+  country: string;
+  city: string;
+  district: string;
+  streetAddress: string;
+  detailAddress: string;
+  postcode: string;
+  latitude: number;
+  longitude: number;
 };
 
 export const roomState = atom<RegisterRoomState>({
@@ -21,6 +29,14 @@ export const roomState = atom<RegisterRoomState>({
     bedCount: 0,
     bedList: [],
     bathroomCount: 0,
+    country: '',
+    city: '',
+    district: '', // 시/군/구
+    streetAddress: '', // 도로명주소
+    detailAddress: '',
+    postcode: '', // 우편 번호
+    latitude: 0, // 위도
+    longitude: 0, // 경도
   },
   dangerouslyAllowMutability: true,
 });
