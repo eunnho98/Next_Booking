@@ -14,6 +14,7 @@ interface IForm extends FieldValues {
 
 function RegisterRoomBedrooms() {
   const [room, setRoom] = useRecoilState(roomState);
+
   const {
     handleSubmit,
     formState: { errors },
@@ -22,14 +23,19 @@ function RegisterRoomBedrooms() {
   } = useForm<IForm>();
 
   const onChangeBedroom = (value: number) => {
+    let bedList = room.bedList;
     setRoom((prev) => {
+      if (value < room.bedList.length) {
+        bedList = room.bedList.slice(0, value);
+      } else {
+        for (let i = bedList.length + 1; i < value + 1; i += 1) {
+          bedList.push({ id: i, beds: [] });
+        }
+      }
       return {
         ...prev,
         // 새로운 배열 반환
-        bedList: Array.from(Array(value), (_, index) => ({
-          id: index + 1,
-          beds: [],
-        })),
+        bedList: bedList,
         bedroomCount: value,
       };
     });
