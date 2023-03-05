@@ -1,3 +1,5 @@
+import { BedType } from './type';
+
 export const monthList = [
   '1월',
   '2월',
@@ -103,4 +105,20 @@ export const roomTypeRadioOptions = [
     value: 'public',
     description: '공용 침실이나 공용 공간에서 숙박합니다.',
   },
+];
+
+// 침대 유형
+export const bedTypes: BedType[] = [
+  '소파',
+  '에어 매트릭스',
+  '요와 이불',
+  '싱글',
+  '더블',
+  '퀸',
+  '이층 침대',
+  '바닥용 에어매트릭스',
+  '유아 침대',
+  '유아용 침대',
+  '해먹',
+  '물침대',
 ];
