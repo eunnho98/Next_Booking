@@ -1,5 +1,15 @@
 import axios from '.';
 
+interface GetLocationInfo {
+  country: string;
+  city: string;
+  district: string;
+  streetAddress: string;
+  postcode: string;
+  latitude: number;
+  longitude: number;
+  political: string;
+}
 // 현재 위치 가져오기
 export const getLocationInfoAPI = async ({
   latitude,
@@ -8,4 +18,6 @@ export const getLocationInfoAPI = async ({
   latitude: number;
   longitude: number;
 }) =>
-  axios.get(`/api/maps/location?latitude=${latitude}&longitude=${longitude}`);
+  axios.get<GetLocationInfo>(
+    `/api/maps/location?latitude=${latitude}&longitude=${longitude}`,
+  );
