@@ -1,3 +1,4 @@
+import { getLocationInfoAPI } from '@/lib/api/map';
 import { countryList } from '@/lib/staticData';
 import { BellIcon } from '@chakra-ui/icons';
 import { Box, Button, Text } from '@chakra-ui/react';
@@ -8,7 +9,31 @@ import CommonSelector from '../common/CommonSelector';
 interface IForm extends FieldValues {
   country: string;
 }
+
+interface Coordinates {
+  latitude: number;
+  longitude: number;
+}
+
 function RegisterRoomLocation() {
+  const onSuccessGetLocation = async ({ coords }: { coords: Coordinates }) => {
+    try {
+      await getLocationInfoAPI({
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onClickCurrentLocation = () => {
+    // getCurrentPosition(성공 시 콜백, 실패 시 콜백)
+    navigator.geolocation.getCurrentPosition(onSuccessGetLocation, (e) => {
+      console.log('failed');
+    });
+  };
+
   const { handleSubmit, control } = useForm<IForm>();
   return (
     <Box p="62px 30px 100px">
@@ -22,7 +47,12 @@ function RegisterRoomLocation() {
         설정한 옵션과 유사한 근처 숙소를 소개해드립니다.
       </Text>
       <Box w="176px" mb="24px">
-        <Button colorScheme="pink" variant="solid" leftIcon={<BellIcon />}>
+        <Button
+          colorScheme="pink"
+          variant="solid"
+          leftIcon={<BellIcon />}
+          onClick={onClickCurrentLocation}
+        >
           현재 위치 사용
         </Button>
       </Box>
