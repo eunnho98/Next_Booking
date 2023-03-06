@@ -12,8 +12,8 @@ export type RegisterRoomState = {
   country: string;
   city: string;
   district: string;
+  political: string;
   streetAddress: string;
-  detailAddress: string;
   postcode: string;
   latitude: number;
   longitude: number;
@@ -33,10 +33,10 @@ export const roomState = atom<RegisterRoomState>({
     city: '',
     district: '', // 시/군/구
     streetAddress: '', // 도로명주소
-    detailAddress: '',
     postcode: '', // 우편 번호
     latitude: 0, // 위도
     longitude: 0, // 경도
+    political: '', // 구
   },
   dangerouslyAllowMutability: true,
 });
