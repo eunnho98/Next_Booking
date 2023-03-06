@@ -21,6 +21,7 @@ interface IProps<T extends FieldValues>
   disabledOptions?: string[];
   errorMessage?: string;
   placeholder?: string;
+  valueProp?: string;
   myChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -34,10 +35,19 @@ function CommonSelector({
   errorMessage,
   placeholder,
   myChange,
+  valueProp,
 }: IProps<any>) {
   const {
-    field: { value, onChange },
+    field: { onChange },
   } = useController({ name, rules, control });
+
+  let {
+    field: { value },
+  } = useController({ name, rules, control });
+
+  if (value === '' && valueProp !== '') {
+    value = valueProp;
+  }
   return (
     <Box width="100%" height="50px">
       <Select

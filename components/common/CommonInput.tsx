@@ -24,9 +24,11 @@ type TControl<T extends FieldValues> = {
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
   icons?: JSX.Element;
-  placeholder: string;
+  placeholder?: string;
   type: string;
-  errorMessage: string;
+  errorMessage?: string;
+  valueProp?: string;
+  myChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 function CommonInput({
@@ -37,12 +39,21 @@ function CommonInput({
   placeholder,
   type,
   errorMessage,
+  valueProp,
+  myChange,
 }: TControl<any>) {
   const {
-    field: { value, onChange, onBlur },
+    field: { onChange, onBlur },
   } = useController({ name, rules, control });
   const [isError, setIsError] = useState(true);
+  let {
+    field: { value },
+  } = useController({ name, rules, control });
 
+  // * valueProp이 넘어오면 value를 사용자의 입력이 아닌 기본 세팅된 입력을 받도록함
+  if (value === '' && valueProp !== '') {
+    value = valueProp;
+  }
   useEffect(() => {
     if (errorMessage === undefined) {
       setIsError(false);
@@ -59,7 +70,10 @@ function CommonInput({
             type={type}
             placeholder={placeholder}
             value={value || ''}
-            onChange={onChange}
+            onChange={(e) => {
+              onChange(e);
+              myChange && myChange(e);
+            }}
             onBlur={onBlur}
             position="relative"
             width="100%"
