@@ -115,7 +115,7 @@ function RegisterRoomLocation() {
           어디서 묵으실 건가요?
         </Text>
         <Text as="h3" fontWeight="bold" mb="6px" color="gray.700">
-          Step 4.
+          Step 4-1.
         </Text>
         <Text
           as="p"

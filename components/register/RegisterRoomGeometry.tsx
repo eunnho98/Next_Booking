@@ -106,6 +106,9 @@ function RegisterRoomGeometry() {
         <Box w="487px" h="280px" mt="24px">
           <div style={{ width: '100%', height: '100%' }} ref={mapRef} />
         </Box>
+        <Text as="p" fontSize="14px" mt="22px">
+          현재 위치를 사용한 경우에만 이용 가능합니다.
+        </Text>
       </Box>
       <RegisterFooter
         prevLink="/room/register/location"
