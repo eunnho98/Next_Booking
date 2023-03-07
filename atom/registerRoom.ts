@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 import { BedType } from '@/lib/type';
 
 export type RegisterRoomState = {
@@ -17,6 +17,7 @@ export type RegisterRoomState = {
   postcode: string;
   latitude: number;
   longitude: number;
+  amentities: string[];
 };
 
 export const roomState = atom<RegisterRoomState>({
@@ -37,6 +38,7 @@ export const roomState = atom<RegisterRoomState>({
     latitude: 0, // 위도
     longitude: 0, // 경도
     political: '', // 구
+    amentities: [],
   },
   dangerouslyAllowMutability: true,
 });
