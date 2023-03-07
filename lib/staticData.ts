@@ -368,3 +368,6 @@ export const countryList = [
   '헝가리',
   '홍콩',
 ];
+
+// 편의 시설
+export const convinienceList = ['주방', '세탁기', '주차', '헬스장', '수영장'];
