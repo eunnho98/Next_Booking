@@ -2,13 +2,21 @@ import { setLatitude, setLongitude } from '@/atom/selector';
 import { Box, Text } from '@chakra-ui/react';
 import React, { useEffect, useRef } from 'react';
 import { useRecoilState } from 'recoil';
+import { throttle } from 'lodash';
+import RegisterFooter from './RegisterFooter';
+import { useForm } from 'react-hook-form';
 
 const loadMapScript = () => {
   return new Promise<void>((resolve) => {
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}&callback=initMap`;
+    // 페이지가 모두 로드된 후 해당 외부 스크립트가 실행됨
     script.defer = true;
     document.head.appendChild(script);
+    // 성공적으로 불러오면 resolve()를 통해 작업이 완료되었다고 알림
+    // resolve에 매개변수가 없으면 단순히 작업이 완료되었음을 알리는 것
+    // resolve에 매개변수가 있으면 작업이 완료되면 넘긴 매개변수가 반환됨
+    // -> then()을 쓸 때 넘긴 매개변수가 then의 콜백으로 넘어감
     script.onload = () => {
       resolve();
     };
@@ -17,6 +25,7 @@ const loadMapScript = () => {
 
 declare global {
   interface Window {
+    google: any;
     initMap: () => void;
   }
 }
@@ -25,6 +34,9 @@ function RegisterRoomGeometry() {
   const mapRef = useRef<HTMLDivElement>(null);
   const [lat, setLat] = useRecoilState(setLatitude);
   const [lng, setLng] = useRecoilState(setLongitude);
+
+  const { handleSubmit } = useForm();
+  const onSubmit = () => {};
 
   const loadMap = async () => {
     await loadMapScript();
@@ -47,14 +59,34 @@ function RegisterRoomGeometry() {
         },
         map,
       });
+      map.addListener(
+        'center_changed',
+        throttle(() => {
+          const changeLat = map.getCenter().lat();
+          const changeLng = map.getCenter().lng();
+          marker.setPosition({ lat: changeLat, lng: changeLng });
+          // recoil atom state 업데이트
+          setLat(changeLat);
+          setLng(changeLng);
+        }, 150),
+      );
     }
   };
 
   useEffect(() => {
     loadMap();
   }, []);
+
+  useEffect(() => {
+    console.log('lat', lat);
+    console.log('lng', lng);
+  }, [lat, lng]);
   return (
-    <form>
+    <form
+      onSubmit={() => {
+        handleSubmit(onSubmit)();
+      }}
+    >
       <Box p="62px 30px 100px">
         <Text as="h2" fontSize="24px" fontWeight="800" mb="50px">
           핀의 위치가 정확한가요?
@@ -75,6 +107,12 @@ function RegisterRoomGeometry() {
           <div style={{ width: '100%', height: '100%' }} ref={mapRef} />
         </Box>
       </Box>
+      <RegisterFooter
+        prevLink="/room/register/location"
+        nextLink="/room/register/amentites"
+        onSubmit={onSubmit}
+        isValid={true}
+      />
     </form>
   );
 }
