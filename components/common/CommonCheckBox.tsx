@@ -1,4 +1,4 @@
-import { Checkbox, CheckboxGroup, Stack } from '@chakra-ui/react';
+import { Checkbox, CheckboxGroup, Stack, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import {
   Control,
@@ -21,10 +21,11 @@ function CommonCheckBox({ control, name, options, myChange }: IProps<any>) {
 
   return (
     <CheckboxGroup colorScheme="gray">
-      <Stack direction="column" spacing={3}>
+      <Stack direction="column" spacing={5}>
         {options.map((option, idx) => (
-          <div>
+          <Stack direction="row">
             <Checkbox
+              mr="12px"
               size="lg"
               key={idx}
               onChange={(e) => {
@@ -38,8 +39,10 @@ function CommonCheckBox({ control, name, options, myChange }: IProps<any>) {
               checked={value.includes(option)}
               value={option}
             />
-            {option}
-          </div>
+            <Text as="span" fontWeight="bold">
+              {option}
+            </Text>
+          </Stack>
         ))}
       </Stack>
     </CheckboxGroup>
