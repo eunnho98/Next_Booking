@@ -9,4 +9,4 @@
 - Design: Chakra UI
 - State Library: Recoil
 - Server: Prisma + SQLite
-- ETC: react-hook-form
+- ETC: react-hook-form, firebase
