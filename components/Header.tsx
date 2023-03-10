@@ -8,6 +8,7 @@ import {
   ListItem,
   ScaleFade,
   useToast,
+  useDisclosure,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -16,11 +17,14 @@ import Airbnb from './svg/Airbnb';
 import SigninModal from './SigninModal';
 import SignupModal from './SignupModal';
 import { logoutAPI } from '@/lib/api/auth';
+import UpdateModal from './UpdateModal';
 
 function Header() {
   const [userState, setUserState] = useState<any>({});
   const [isUserMenuOpened, setIsUserMenuOpened] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onLogout = async () => {
     try {
@@ -133,7 +137,28 @@ function Header() {
                     >
                       로그아웃
                     </ListItem>
+                    <ListItem
+                      display="flex"
+                      alignItems="center"
+                      cursor="pointer"
+                      width="100%"
+                      height="42px"
+                      p="0 16px"
+                      _hover={{
+                        borderRadius: '8px',
+                        bgColor: 'gray.300',
+                      }}
+                      onClick={() => {
+                        setIsUpdate(true);
+                        onOpen();
+                      }}
+                    >
+                      회원정보 수정
+                    </ListItem>
                   </UnorderedList>
+                  {isUpdate && (
+                    <UpdateModal isOpen={isOpen} onClose={onClose} />
+                  )}
                 </Box>
               </ScaleFade>
             )}

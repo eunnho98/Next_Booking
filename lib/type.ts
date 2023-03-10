@@ -5,7 +5,7 @@ export type StoredUserType = {
   name: string;
   password: string;
   birthday: string;
-  userImage: string;
+  userImage?: string;
   accessToken?: string;
   refreshToken?: string;
 };

@@ -52,4 +52,19 @@ const writeDB = async (users: StoredUserType) => {
   });
 };
 
-export default { getList, exist, write, find, findDB, writeDB };
+// 유저 정보 업데이트
+const updateDB = async (users: StoredUserType) => {
+  await prisma.user.update({
+    where: {
+      id: users.id,
+    },
+    data: {
+      email: users.email,
+      name: users.name,
+      password: users.password,
+      birthday: users.birthday,
+    },
+  });
+};
+
+export default { getList, exist, write, find, findDB, writeDB, updateDB };
