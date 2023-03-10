@@ -39,9 +39,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     };
     Data.user.writeDB(newUser);
 
-    console.log('access', accessToken);
-    console.log('refresh', refreshToken);
-
     res.setHeader('Set-Cookie', [
       `accessToken=${accessToken}; HttpOnly; Path=/; Max-Age=86400; SameSite=None; Secure`,
       `refreshToken=${refreshToken}; HttpOnly; Path=/; Max-Age=604800; SameSite=None; Secure`,
