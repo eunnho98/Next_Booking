@@ -26,6 +26,7 @@
     "bcryptjs": "^2.4.3",
     "date-fns": "^2.29.3",
     "eslint-config-next": "13.2.3",
+    "firebase": "^9.17.2",
     "formidable": "^2.1.1",
     "framer-motion": "^10.0.1",
     "jsonwebtoken": "^9.0.0",
