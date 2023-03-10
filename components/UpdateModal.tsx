@@ -1,7 +1,9 @@
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -23,6 +25,7 @@ import Password from './svg/Password';
 import Person from './svg/Person';
 import { dayList, monthList, yearList } from '@/lib/staticData';
 import { updateAPI } from '@/lib/api/update';
+import { uploadFileAPI } from '@/lib/api/file';
 
 interface IForm extends FieldValues {
   email: string;
@@ -50,7 +53,27 @@ function SigninModal({ isOpen, onClose }: IProps) {
   const toast = useToast();
   const user = useRecoilValue(initialState);
 
-  const onSubmit = async (data: IForm) => {
+  //* 이미지 업로드 onChange
+  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    // lenght > 0 을 주어 파일 선택 후 취소 시 처리
+    if (files && files.length > 0) {
+      console.log('files', files);
+      const file = files[0];
+      const formdata = new FormData();
+      formdata.append('file', file);
+      try {
+        await uploadFileAPI(formdata);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+
+  //* 사진변경 submit
+
+  //* 회원정보수정 submit
+  const onSubmitInfo = async (data: IForm) => {
     if (
       data.password.includes(data.name) ||
       data.password.includes(data.email.split('@')[0])
@@ -84,6 +107,7 @@ function SigninModal({ isOpen, onClose }: IProps) {
         isClosable: true,
       });
       onClose();
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +121,7 @@ function SigninModal({ isOpen, onClose }: IProps) {
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
+        <form onSubmit={handleSubmit(onSubmitInfo, onInvalid)}>
           <ModalContent>
             <ModalHeader>회원정보수정</ModalHeader>
             <ModalCloseButton />
@@ -190,6 +214,26 @@ function SigninModal({ isOpen, onClose }: IProps) {
                   />
                 </FormControl>
               </Stack>
+              <FormControl>
+                <FormLabel mb="0">사진 변경</FormLabel>
+                <Text as="p" color="gray.500" fontSize="12px" mb="14px">
+                  사진을 변경한 경우 닫기를 눌러주세요.
+                </Text>
+
+                <label
+                  style={{
+                    padding: '6px 25px',
+                    backgroundColor: '#D53F8C',
+                    borderRadius: '4px',
+                    color: 'white',
+                    cursor: 'pointer',
+                  }}
+                  htmlFor="input-file"
+                >
+                  업로드
+                </label>
+                <Input id="input-file" type="file" display="none" />
+              </FormControl>
             </ModalBody>
 
             <ModalFooter display="flex" justifyContent="center">
