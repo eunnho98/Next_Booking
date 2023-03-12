@@ -16,7 +16,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { FieldValues, useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { initialState, isHidden } from '@/atom/atom';
 import CommonInput from './common/CommonInput';
 import CommonSelector from './common/CommonSelector';
@@ -24,8 +24,16 @@ import Email from './svg/Email';
 import Password from './svg/Password';
 import Person from './svg/Person';
 import { dayList, monthList, yearList } from '@/lib/staticData';
-import { updateAPI } from '@/lib/api/update';
-import { uploadFileAPI } from '@/lib/api/file';
+import { updateAPI, updateImageAPI } from '@/lib/api/update';
+import { useEffect, useState } from 'react';
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadString,
+} from 'firebase/storage';
+import { fstorage } from '@/firebase/firebase';
+import { v4 as uuidv4 } from 'uuid';
 
 interface IForm extends FieldValues {
   email: string;
@@ -51,26 +59,69 @@ function SigninModal({ isOpen, onClose }: IProps) {
   } = useForm<IForm>();
   const hide = useRecoilValue(isHidden);
   const toast = useToast();
-  const user = useRecoilValue(initialState);
+  const [user, setUser] = useRecoilState(initialState);
+  const [myImage, setMyImage] = useState('');
 
+  useEffect(() => {
+    console.log('cur user', user);
+  }, []);
   //* 이미지 업로드 onChange
-  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
-    // lenght > 0 을 주어 파일 선택 후 취소 시 처리
-    if (files && files.length > 0) {
-      console.log('files', files);
-      const file = files[0];
-      const formdata = new FormData();
-      formdata.append('file', file);
+  const uploadImage = async () => {
+    let myImageURL = '';
+    if (myImage !== '') {
+      // 참조 만들기, 파일을 저장할 위치 결정
+      const fileRef = ref(fstorage, `${user.id}/${uuidv4()}`);
+      // 이미 이미지가 있다면 그 이미지를 storage에서 삭제
+      if (user.userImage !== '/default_user.png') {
+        await deleteObject(ref(fstorage, user.userImage));
+      }
+      const response = await uploadString(fileRef, myImage, 'data_url');
+      myImageURL = await getDownloadURL(response.ref);
       try {
-        await uploadFileAPI(formdata);
-      } catch (e) {
-        console.log(e);
+        const updateImageBody = {
+          id: user.id,
+          image: myImageURL,
+        };
+
+        const res = await updateImageAPI(updateImageBody);
+        console.log('image', res);
+        toast({
+          title: '이미지 업데이트 완료!',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+        setUser((prev) => {
+          return {
+            ...prev,
+            userImage: myImageURL,
+          };
+        });
+        window.location.reload();
+      } catch (error) {
+        console.log(error);
       }
     }
+    console.log(myImageURL);
   };
 
-  //* 사진변경 submit
+  //* 사진변경
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files!;
+    const theFile = files[0];
+    if (!theFile) {
+      return;
+    }
+    console.log(theFile);
+    // FileReader 객체를 생성하여 비동기적으로 파일의 내용을 읽고 컴퓨터에 저장할 수 있도록
+    const reader = new FileReader();
+    // 파일 로딩이 끝나거나 읽기가 끝나면 실행, 여기선 readAsDataURL이 끝나면 실행
+    reader.onloadend = (event) => {
+      setMyImage(event.currentTarget.result);
+    };
+    // 파일을 base64로 인코딩
+    reader.readAsDataURL(theFile);
+  };
 
   //* 회원정보수정 submit
   const onSubmitInfo = async (data: IForm) => {
@@ -232,7 +283,12 @@ function SigninModal({ isOpen, onClose }: IProps) {
                 >
                   업로드
                 </label>
-                <Input id="input-file" type="file" display="none" />
+                <Input
+                  id="input-file"
+                  type="file"
+                  display="none"
+                  onChange={onFileChange}
+                />
               </FormControl>
             </ModalBody>
 
@@ -240,7 +296,13 @@ function SigninModal({ isOpen, onClose }: IProps) {
               <Button type="submit" colorScheme="pink" mr={3}>
                 확인
               </Button>
-              <Button onClick={onClose} colorScheme="gray">
+              <Button
+                onClick={() => {
+                  onClose();
+                  uploadImage();
+                }}
+                colorScheme="gray"
+              >
                 닫기
               </Button>
             </ModalFooter>

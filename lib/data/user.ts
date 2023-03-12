@@ -67,4 +67,25 @@ const updateDB = async (users: StoredUserType) => {
   });
 };
 
-export default { getList, exist, write, find, findDB, writeDB, updateDB };
+// 유저 사진 업데이트
+const updateImageDB = async (id: number, image: string) => {
+  await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data: {
+      userImage: image,
+    },
+  });
+};
+
+export default {
+  getList,
+  exist,
+  write,
+  find,
+  findDB,
+  writeDB,
+  updateDB,
+  updateImageDB,
+};
