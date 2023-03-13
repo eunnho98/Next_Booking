@@ -18,6 +18,8 @@ export type RegisterRoomState = {
   latitude: number;
   longitude: number;
   amentities: string[];
+  roomImage: string;
+  description: string;
 };
 
 export const roomState = atom<RegisterRoomState>({
@@ -39,6 +41,8 @@ export const roomState = atom<RegisterRoomState>({
     longitude: 0, // 경도
     political: '', // 구
     amentities: [],
+    roomImage: '',
+    description: '',
   },
   dangerouslyAllowMutability: true,
 });
