@@ -1,62 +1,71 @@
-import { Box, Button, Flex, Input, Text } from '@chakra-ui/react';
-import React from 'react';
-import isEmpty from 'lodash/isEmpty';
-import { uploadFileAPI } from '@/lib/api/file';
+import { Box, Image, Text } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css?after';
+import RegisterFooter from './RegisterFooter';
+import { useSetRecoilState } from 'recoil';
+import { roomState } from '@/atom/registerRoom';
+interface IProps {
+  images: string[];
+}
+function RegisterRoomPhoto({ images }: IProps) {
+  const imgCopy = images;
+  const [choose, setChoose] = useState(imgCopy[0]);
+  const setRoom = useSetRecoilState(roomState);
 
-function RegisterRoomPhoto() {
-  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
-    // lenght > 0 을 주어 파일 선택 후 취소 시 처리
-    if (files && files.length > 0) {
-      console.log('files', files);
-      const file = files[0];
-      const formdata = new FormData();
-      formdata.append('file', file);
-      try {
-        await uploadFileAPI(formdata);
-      } catch (e) {
-        console.log(e);
-      }
-    }
+  const onSubmit = () => {
+    setRoom((prev) => {
+      return {
+        ...prev,
+        roomImage: choose,
+      };
+    });
   };
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    afterChange: (cur: number) => {
+      setChoose(imgCopy[cur]);
+    },
+  };
+
   return (
-    <Box p="62px 30px 100px">
-      <Text as="h2" fontSize="24px" fontWeight="800" mb="50px">
-        숙소 사진
-      </Text>
-      <Text as="h3" fontWeight="bold" mb="6px" color="gray.700">
-        Step 6.
-      </Text>
-      <Text as="p" fontSize="14px" maxW="400px" mb="24px" wordBreak="keep-all">
-        사진을 보고 숙소의 느낌이 어떤지 간접적으로 느껴보세요.
-      </Text>
-      <Flex
-        w="858px"
-        h="433px"
-        m="auto"
-        position="relative"
-        justifyContent="center"
-        alignItems="center"
-        border="2px dashed gray"
-        borderRadius="6px"
-      >
-        <>
-          <Input
-            w="100%"
-            h="100%"
-            position="absolute"
-            opacity="0"
-            cursor="pointer"
-            type="file"
-            accept="image/*"
-            onChange={uploadImage}
-          />
-          <Button colorScheme="pink" w="167px">
-            사진 업로드
-          </Button>
-        </>
-      </Flex>
-    </Box>
+    <form>
+      <Box p="62px 30px 100px">
+        <Text as="h2" fontSize="24px" fontWeight="800" mb="50px">
+          숙소 사진
+        </Text>
+        <Text as="h3" fontWeight="bold" mb="6px" color="gray.700">
+          Step 6.
+        </Text>
+        <Text
+          as="p"
+          fontSize="14px"
+          maxW="400px"
+          mb="24px"
+          wordBreak="keep-all"
+        >
+          원하시는 숙소 스타일을 사진을 보고 골라주세요.
+        </Text>
+        <Slider {...settings}>
+          {imgCopy.map((img) => (
+            <Image src={img} w="300px" h="200px" borderRadius="4px" />
+          ))}
+        </Slider>
+
+        <RegisterFooter
+          prevLink="/room/register/amentities"
+          nextLink="/room/register/description"
+          isValid={true}
+          onSubmit={onSubmit}
+        />
+      </Box>
+    </form>
   );
 }
 
