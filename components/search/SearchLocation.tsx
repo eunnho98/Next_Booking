@@ -1,3 +1,5 @@
+import { searchLocation } from '@/atom/atom';
+import { searchPlacesAPI } from '@/lib/api/map';
 import {
   Box,
   Input,
@@ -6,15 +8,36 @@ import {
   UnorderedList,
   useOutsideClick,
 } from '@chakra-ui/react';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 function SearchLocation() {
   const [opened, setOpened] = useState(false);
+  const [location, setLocation] = useRecoilState(searchLocation);
+  const [results, setResults] = useState<
+    { description: string; placeId: string }[]
+  >([]);
   const ref = useRef();
   useOutsideClick({
     ref,
     handler: () => setOpened(false),
   });
+
+  const searchPlaces = async () => {
+    try {
+      const { data } = await searchPlacesAPI(encodeURI(location.location));
+      setResults(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (location.location) {
+      searchPlaces();
+    }
+  }, [location.location]);
+
   return (
     <Box
       onClick={() => setOpened(true)}
@@ -33,6 +56,7 @@ function SearchLocation() {
           여행지
         </Text>
         <Input
+          type="text"
           w="100%"
           border="0"
           borderRadius="8px"
@@ -40,6 +64,10 @@ function SearchLocation() {
           size="xs"
           placeholder="어디로 가시나요?"
           variant="filled"
+          value={location.location}
+          onChange={(e) => {
+            setLocation({ location: e.target.value });
+          }}
         />
       </Box>
       {opened && (
@@ -56,15 +84,29 @@ function SearchLocation() {
           overflow="hidden"
           zIndex="10"
         >
-          <ListItem
-            display="flex"
-            alignItems="center"
-            height="64px"
-            p="8px 32px"
-            cursor="pointer"
-          >
-            근처 추천 장소
-          </ListItem>
+          {!location.location && (
+            <ListItem
+              display="flex"
+              alignItems="center"
+              height="64px"
+              p="8px 32px"
+              cursor="pointer"
+            >
+              근처 추천 장소
+            </ListItem>
+          )}
+          {results.length !== 0 &&
+            results.map((result, idx) => (
+              <ListItem
+                display="flex"
+                alignItems="center"
+                height="64px"
+                p="8px 32px"
+                cursor="pointer"
+              >
+                {result.description}
+              </ListItem>
+            ))}
         </UnorderedList>
       )}
     </Box>

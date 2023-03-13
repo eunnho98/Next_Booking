@@ -49,3 +49,10 @@ export const dateState = atom<IDateState>({
     checkOut: '',
   },
 });
+
+export const searchLocation = atom({
+  key: 'location',
+  default: {
+    location: '',
+  },
+});

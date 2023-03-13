@@ -21,3 +21,8 @@ export const getLocationInfoAPI = async ({
   axios.get<GetLocationInfo>(
     `/api/maps/location?latitude=${latitude}&longitude=${longitude}`,
   );
+
+export const searchPlacesAPI = (keyword: string) =>
+  axios.get<{ description: string; placeId: string }[]>(
+    `/api/maps/places?keyword=${keyword}`,
+  );
