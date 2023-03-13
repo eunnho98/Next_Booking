@@ -106,21 +106,7 @@ function Header() {
                         borderRadius: '8px',
                       }}
                     >
-                      숙소 관리
-                    </ListItem>
-                    <ListItem
-                      display="flex"
-                      alignItems="center"
-                      cursor="pointer"
-                      width="100%"
-                      height="42px"
-                      p="0 16px"
-                      _hover={{
-                        bgColor: 'gray.300',
-                        borderRadius: '8px',
-                      }}
-                    >
-                      숙소 등록하기
+                      내 숙소 보기
                     </ListItem>
                     <ListItem
                       display="flex"
