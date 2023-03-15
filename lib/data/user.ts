@@ -48,6 +48,7 @@ const writeDB = async (users: StoredUserType) => {
       userImage: users.userImage,
       accessToken: users.accessToken,
       refreshToken: users.refreshToken,
+      isPurchase: users.isPurchase,
     },
   });
 };

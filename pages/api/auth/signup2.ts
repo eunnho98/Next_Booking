@@ -36,6 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       userImage: '/default_user.png',
       accessToken,
       refreshToken,
+      isPurchase: false,
     };
     Data.user.writeDB(newUser);
 

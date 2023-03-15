@@ -20,6 +20,7 @@ export type RegisterRoomState = {
   amentities: string[];
   roomImage: string;
   description: string;
+  price: number;
 };
 
 export const roomState = atom<RegisterRoomState>({
@@ -43,6 +44,7 @@ export const roomState = atom<RegisterRoomState>({
     amentities: [],
     roomImage: '',
     description: '',
+    price: 0,
   },
   dangerouslyAllowMutability: true,
 });

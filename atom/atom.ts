@@ -33,6 +33,7 @@ export const initialState = atom<UserState>({
     birthday: '',
     userImage: '',
     isLogged: false,
+    isPurchase: false,
   },
   effects_UNSTABLE: [persistAtom],
 });

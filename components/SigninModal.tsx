@@ -52,6 +52,7 @@ function SigninModal() {
         birthday: user.birthday,
         userImage: user.userImage,
         isLogged: true,
+        isPurchase: false,
       });
       toast({
         title: `${res.data.userExist.name}님, 환영합니다.`,
