@@ -1,5 +1,38 @@
 import axios from '.';
+import { BedType } from '../type';
+
+export interface IBody {
+  userId: number;
+  largeBuildingType: string;
+  buildingType: string;
+  roomType: string;
+  bedroomCount: number;
+  bedCount: number;
+  bedList?: { id: number; beds: { type: BedType; count: number }[] }[];
+  bathroomCount: number;
+  country: string;
+  city: string;
+  district: string;
+  political: string;
+  streetAddress: string;
+  postcode: string;
+  latitude: number;
+  longitude: number;
+  amentities?: string;
+  roomImage: string;
+  description?: string;
+  price: number;
+  checkIn: string;
+  checkOut: string;
+  adults: number;
+  teenager: number;
+  children: number;
+}
 
 // 파일 업로드
 export const uploadFileAPI = (file: FormData) =>
   axios.post('/api/files/upload', file);
+
+// 데이터 저장
+export const SaveDataAPI = (body: IBody) =>
+  axios.post<IBody>('/api/files/save', body);

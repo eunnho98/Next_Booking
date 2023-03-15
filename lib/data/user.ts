@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { StoredUserType } from '../type';
 import prisma from '../prismadb';
+import { IBody } from '../api/file';
 
 const getList = () => {
   const usersBuffer = readFileSync('data/user.json');
@@ -80,6 +81,64 @@ const updateImageDB = async (id: number, image: string) => {
   });
 };
 
+// 각 방 별 침대 저장
+const writeBedsDB = async (id: number, type: string, count: number) => {
+  await prisma.beds.create({
+    data: {
+      type: type,
+      count: count,
+      Bedlist: {
+        connect: { id: id },
+      },
+    },
+  });
+};
+
+// 방 침대와 Room 연결
+const writeBedListDB = async (id: number) => {
+  await prisma.bedlist.create({
+    data: {
+      Room: {
+        connect: { id: id },
+      },
+    },
+  });
+};
+
+// Room 저장
+const writeRoomDB = async (room: IBody, amenString: string) => {
+  await prisma.room.create({
+    data: {
+      largeBuildingType: room.largeBuildingType,
+      buildingType: room.buildingType,
+      roomType: room.roomType,
+      bedroomCount: room.bedroomCount,
+      bedCount: room.bedCount,
+      bathroomCount: room.bathroomCount,
+      country: room.country,
+      city: room.city,
+      district: room.district,
+      political: room.political,
+      streetAddress: room.streetAddress,
+      postcode: room.postcode,
+      latitude: room.latitude,
+      longitude: room.longitude,
+      amentities: amenString,
+      roomImage: room.roomImage,
+      description: room.description,
+      price: room.price,
+      checkIn: room.checkIn,
+      checkOut: room.checkOut,
+      adults: room.adults,
+      teenager: room.teenager,
+      children: room.children,
+      user: {
+        connect: { id: room.userId },
+      },
+    },
+  });
+};
+
 export default {
   getList,
   exist,
@@ -89,4 +148,7 @@ export default {
   writeDB,
   updateDB,
   updateImageDB,
+  writeBedsDB,
+  writeBedListDB,
+  writeRoomDB,
 };
