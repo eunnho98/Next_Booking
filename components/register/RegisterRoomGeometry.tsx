@@ -1,10 +1,12 @@
 import { setLatitude, setLongitude } from '@/atom/selector';
 import { Box, Text } from '@chakra-ui/react';
 import React, { useEffect, useRef } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { throttle } from 'lodash';
 import RegisterFooter from './RegisterFooter';
 import { useForm } from 'react-hook-form';
+import { roomState } from '@/atom/registerRoom';
+import { getLocationInfoAPI } from '@/lib/api/map';
 
 const loadMapScript = () => {
   return new Promise<void>((resolve) => {
@@ -34,9 +36,32 @@ function RegisterRoomGeometry() {
   const mapRef = useRef<HTMLDivElement>(null);
   const [lat, setLat] = useRecoilState(setLatitude);
   const [lng, setLng] = useRecoilState(setLongitude);
+  const setLocation = useSetRecoilState(roomState);
 
   const { handleSubmit } = useForm();
-  const onSubmit = () => {};
+  const onSubmit = async () => {
+    try {
+      const { data } = await getLocationInfoAPI({
+        latitude: lat,
+        longitude: lng,
+      });
+      setLocation((prev) => {
+        return {
+          ...prev,
+          city: data.city,
+          country: data.country,
+          district: data.district,
+          latitude: data.latitude,
+          longitude: data.longitude,
+          postcode: data.postcode,
+          streetAddress: data.streetAddress,
+          political: data.political,
+        };
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const loadMap = async () => {
     await loadMapScript();
