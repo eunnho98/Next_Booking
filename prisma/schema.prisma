@@ -11,13 +11,67 @@ datasource db {
 }
 
 model User {
-  id  Int @id @unique @default(autoincrement())
-  name String?
-  email String? @unique
-  password String?
-  birthday String?
-  userImage String?
-  accessToken String?
+  id           Int     @id @unique @default(autoincrement())
+  name         String?
+  email        String? @unique
+  password     String?
+  birthday     String?
+  userImage    String?
+  accessToken  String?
   refreshToken String?
+  isPurchase Boolean?
+  room         Room[]
+}
+
+model Room {
+  id                Int          @id @default(autoincrement())
+  userId            Int
+  user              User         @relation(fields: [userId], references: [id])
+  largeBuildingType String?
+  buildingType      String?
+  roomType          String?
+  bedroomCount      Int?
+  bedCount          Int?
+  bedList           BedList[]
+  bathroomCount     Int
+  country           String
+  city              String
+  district          String
+  political         String
+  streetAddress     String
+  postcode          String
+  latitude          Float
+  longitude         Float
+  amentities        Amentities[]
+  roomImage         String
+  description       String?
+  price             Int
+  checkIn String
+  checkOut String
+  adults Int?
+  teenager Int?
+  children Int?
+}
+
+model BedList {
+  id     Int    @id @default(autoincrement())
+  beds   Beds[]
+  Room   Room  @relation(fields: [roomId], references: [id])
+  roomId Int
+}
+
+model Beds {
+  id        Int      @id @default(autoincrement())
+  type      String
+  count     Int
+  BedList   BedList @relation(fields: [bedListId], references: [id])
+  bedListId Int
+}
+
+model Amentities {
+  id     Int    @id @default(autoincrement())
+  amen   String
+  room   Room   @relation(references: [id], fields: [roomId])
+  roomId Int
 }
 
