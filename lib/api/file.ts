@@ -18,7 +18,7 @@ export interface IBody {
   postcode: string;
   latitude: number;
   longitude: number;
-  amentities?: string;
+  amentities?: any;
   roomImage: string;
   description?: string;
   price: number;
