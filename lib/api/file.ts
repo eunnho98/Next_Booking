@@ -36,3 +36,8 @@ export const uploadFileAPI = (file: FormData) =>
 // 데이터 저장
 export const SaveDataAPI = (body: IBody) =>
   axios.post<IBody>('/api/files/save', body);
+
+// 침대 저장
+export const saveBedsAPI = (
+  body: { id: number; beds: { type: BedType; count: number }[] }[],
+) => axios.post('/api/files/saveBed', body);

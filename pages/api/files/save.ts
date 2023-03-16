@@ -1,6 +1,11 @@
 import { IBody } from '@/lib/api/file';
 import Data from '@/lib/data';
+import { BedType } from '@/lib/type';
 import { NextApiRequest, NextApiResponse } from 'next/types';
+
+interface IBedList {
+  bedList: { id: number; beds: { type: BedType; count: number }[] }[];
+}
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
@@ -34,14 +39,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const amentities: string[] = req.body.amentities;
     const amenString = amentities.join();
 
-    bedList?.map((bedidx) =>
-      bedidx.beds.map((bed) =>
-        Data.user.writeBedsDB(bedidx.id, bed.type, bed.count),
-      ),
-    );
-
-    bedList?.map((bedidx) => Data.user.writeBedListDB(bedidx.id));
-
     const data = {
       userId,
       largeBuildingType,
@@ -68,8 +65,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       children,
     };
 
-    Data.user.writeRoomDB(data, amenString);
+    await Data.user.writeRoomDB(data, amenString);
 
-    res.json(data);
+    const latestRoom = await Data.user.getLastRoomDB();
+
+    if (bedList !== undefined) {
+      const writeBedList = async () => {
+        for (let i = 0; i < bedList?.length; i++) {
+          await Data.user.writeBedListDB(latestRoom!.id);
+        }
+      };
+
+      writeBedList();
+    }
+
+    res.json({ data, bedList });
   }
 };

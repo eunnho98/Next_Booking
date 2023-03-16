@@ -81,14 +81,30 @@ const updateImageDB = async (id: number, image: string) => {
   });
 };
 
+// room 가장 최근 레코드 읽기
+const getLastRoomDB = async () => {
+  const user = await prisma.room.findFirst({
+    orderBy: {
+      id: 'desc',
+    },
+  });
+  return user;
+};
+
+// 모든 room 읽기
+const getAllRoomDB = async () => {
+  const users = await prisma.room.findMany();
+  return users;
+};
+
 // 각 방 별 침대 저장
-const writeBedsDB = async (id: number, type: string, count: number) => {
+const writeBedsDB = async (bedid: number, type: string, count: number) => {
   await prisma.beds.create({
     data: {
       type: type,
       count: count,
       Bedlist: {
-        connect: { id: id },
+        connect: { id: bedid },
       },
     },
   });
@@ -151,4 +167,6 @@ export default {
   writeBedsDB,
   writeBedListDB,
   writeRoomDB,
+  getLastRoomDB,
+  getAllRoomDB,
 };
