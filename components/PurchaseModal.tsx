@@ -1,6 +1,6 @@
 import { dateState, initialState } from '@/atom/atom';
 import { guestNum, roomState } from '@/atom/registerRoom';
-import { SaveDataAPI } from '@/lib/api/file';
+import { saveBedsAPI, SaveDataAPI } from '@/lib/api/file';
 import { RequestPayParams, RequestPayResponse } from '@/lib/type';
 import {
   Box,
@@ -16,7 +16,9 @@ import {
   ModalOverlay,
   Text,
   UnorderedList,
+  useToast,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
@@ -43,6 +45,8 @@ interface IProps {
 }
 
 function PurchaseModal({ isOpen, onClose, diffDate }: IProps) {
+  const toast = useToast();
+  const router = useRouter();
   const { IMP } = window;
   const [room, setRoom] = useRecoilState(roomState);
   const guest = useRecoilValue(guestNum);
@@ -56,6 +60,12 @@ function PurchaseModal({ isOpen, onClose, diffDate }: IProps) {
   const priceString = price.toLocaleString('ko-KR');
 
   useEffect(() => {
+    setRoom((prev) => {
+      return {
+        ...prev,
+        price: price,
+      };
+    });
     const jquery = document.createElement('script');
     jquery.src = 'https://code.jquery.com/jquery-1.12.4.min.js';
 
@@ -91,7 +101,9 @@ function PurchaseModal({ isOpen, onClose, diffDate }: IProps) {
       (res: RequestPayResponse) => {
         const { success, error_msg } = res;
         if (success) {
-          alert('결제 성공');
+          if (confirm('결제 성공')) {
+            router.push('/');
+          }
         } else {
           alert(`결제 실패, ${error_msg}`);
         }
@@ -99,13 +111,7 @@ function PurchaseModal({ isOpen, onClose, diffDate }: IProps) {
     );
   };
 
-  const onClick = async () => {
-    setRoom((prev) => {
-      return {
-        ...prev,
-        price: price,
-      };
-    });
+  const onClick = async (purchase: boolean) => {
     try {
       const body = {
         userId: user.id,
@@ -133,10 +139,21 @@ function PurchaseModal({ isOpen, onClose, diffDate }: IProps) {
         adults: guest.adults,
         teenager: guest.teenager,
         children: guest.children,
+        purchase: purchase,
       };
 
-      const res = await SaveDataAPI(body);
-      console.log(res);
+      await SaveDataAPI(body);
+
+      await saveBedsAPI(room.bedList);
+
+      if (!purchase) {
+        toast({
+          title: '담기 완료!',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -176,6 +193,7 @@ function PurchaseModal({ isOpen, onClose, diffDate }: IProps) {
                 colorScheme="red"
                 onClick={() => {
                   handlePayment('html5_inicis');
+                  onClick(true);
                 }}
               >
                 결제하기
@@ -187,6 +205,7 @@ function PurchaseModal({ isOpen, onClose, diffDate }: IProps) {
                 }}
                 onClick={() => {
                   handlePayment('kakaopay');
+                  onClick(true);
                 }}
               >
                 카카오페이
@@ -199,13 +218,20 @@ function PurchaseModal({ isOpen, onClose, diffDate }: IProps) {
                 }}
                 onClick={() => {
                   handlePayment('tosspay');
+                  onClick(true);
                 }}
               >
                 토스페이
               </Button>
             </ModalFooter>
             <ModalFooter>
-              <Button onClick={onClick}>담기</Button>
+              <Button
+                onClick={() => {
+                  onClick(false);
+                }}
+              >
+                담기
+              </Button>
             </ModalFooter>
           </ModalContent>
         </form>
