@@ -39,6 +39,26 @@ const findDB = async ({ email }: { email: string }) => {
   return user;
 };
 
+const findDBwithRoom = async ({ email }: { email: string }) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+    include: {
+      room: {
+        include: {
+          bedList: {
+            include: {
+              beds: true,
+            },
+          },
+        },
+      },
+    },
+  });
+  return user;
+};
+
 const writeDB = async (users: StoredUserType) => {
   await prisma.user.create({
     data: {
@@ -148,6 +168,7 @@ const writeRoomDB = async (room: IBody, amenString: string) => {
       adults: room.adults,
       teenager: room.teenager,
       children: room.children,
+      purchase: room.purchase,
       user: {
         connect: { id: room.userId },
       },
@@ -169,4 +190,5 @@ export default {
   writeRoomDB,
   getLastRoomDB,
   getAllRoomDB,
+  findDBwithRoom,
 };
