@@ -34,6 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       adults,
       teenager,
       children,
+      purchase,
     }: IBody = req.body;
 
     const amentities: string[] = req.body.amentities;
@@ -63,6 +64,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       adults,
       teenager,
       children,
+      purchase,
     };
 
     await Data.user.writeRoomDB(data, amenString);
