@@ -27,6 +27,7 @@ export interface IBody {
   adults: number;
   teenager: number;
   children: number;
+  purchase: boolean;
 }
 
 // 파일 업로드
