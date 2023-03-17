@@ -63,7 +63,7 @@ function Header() {
       boxShadow="0px 1px 2px rgba(0, 0, 0, 0.18)"
       zIndex="100"
     >
-      <Link href="/">
+      <Link href="/home">
         <Airbnb />
       </Link>
       <Stack direction="row" spacing="12px">
@@ -93,21 +93,24 @@ function Header() {
                     boxShadow="0 2px 16px rgba(0, 0, 0, 0.12)"
                     borderRadius="8px"
                     zIndex="20"
+                    onClick={() => setIsUserMenuOpened((prev) => !prev)}
                   >
-                    <ListItem
-                      display="flex"
-                      alignItems="center"
-                      cursor="pointer"
-                      width="100%"
-                      height="42px"
-                      p="0 16px"
-                      _hover={{
-                        bgColor: 'gray.300',
-                        borderRadius: '8px',
-                      }}
-                    >
-                      내 숙소 보기
-                    </ListItem>
+                    <Link href="/mypage">
+                      <ListItem
+                        display="flex"
+                        alignItems="center"
+                        cursor="pointer"
+                        width="100%"
+                        height="42px"
+                        p="0 16px"
+                        _hover={{
+                          bgColor: 'gray.300',
+                          borderRadius: '8px',
+                        }}
+                      >
+                        내 숙소 보기
+                      </ListItem>
+                    </Link>
                     <ListItem
                       display="flex"
                       alignItems="center"

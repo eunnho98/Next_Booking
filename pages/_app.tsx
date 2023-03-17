@@ -4,12 +4,14 @@ import { RecoilRoot } from 'recoil';
 import Header from '@/components/Header';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../lib/styles/datepicker.css';
+import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
   return (
     <RecoilRoot>
       <ChakraProvider>
-        <Header />
+        {router.pathname !== '/' ? <Header /> : null}
         <Component {...pageProps} />
       </ChakraProvider>
     </RecoilRoot>
