@@ -176,6 +176,18 @@ const writeRoomDB = async (room: IBody, amenString: string) => {
   });
 };
 
+// 결제 유무 업데이트
+const updatePurchaseDB = async (id: number, purchase: boolean) => {
+  await prisma.room.update({
+    where: {
+      id: id,
+    },
+    data: {
+      purchase: purchase,
+    },
+  });
+};
+
 export default {
   getList,
   exist,
@@ -191,4 +203,5 @@ export default {
   getLastRoomDB,
   getAllRoomDB,
   findDBwithRoom,
+  updatePurchaseDB,
 };

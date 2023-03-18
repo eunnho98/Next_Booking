@@ -21,4 +21,4 @@ export const updateImageAPI = (body: UpdateAPIBody) =>
   axios.post<UserType>('/api/me/updateImage', body);
 
 export const getMeAPI = (email: string) =>
-  axios.get<MeAPIBody>(`/api/me/getMe?email=${email}`);
+  axios.get(`/api/me/getMe?email=${email}`);

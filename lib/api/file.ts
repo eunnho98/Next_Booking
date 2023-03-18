@@ -42,3 +42,6 @@ export const SaveDataAPI = (body: IBody) =>
 export const saveBedsAPI = (
   body: { id: number; beds: { type: BedType; count: number }[] }[],
 ) => axios.post('/api/files/saveBed', body);
+
+export const updatePurchaseAPI = (body: { id: number; purchase: boolean }) =>
+  axios.post('/api/files/update', body);
