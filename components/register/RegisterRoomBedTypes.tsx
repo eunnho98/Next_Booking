@@ -55,7 +55,7 @@ function RegisterRoomBedTypes({ bedroom }: IProps) {
     >
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Box mb="28px">
-          <Text as="p" fontSize="19px" color="gray.700">
+          <Text as="p" fontSize="19px">
             {bedroom.id}번 침실
           </Text>
           <Text as="p" fontSize="15px">
@@ -65,7 +65,8 @@ function RegisterRoomBedTypes({ bedroom }: IProps) {
         <Button
           onClick={() => setOpened((prev) => !prev)}
           colorScheme="gray"
-          variant="outline"
+          variant="solid"
+          color="black"
         >
           {opened && '완료'}
           {!opened &&

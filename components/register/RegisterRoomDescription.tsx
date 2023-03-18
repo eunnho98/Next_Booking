@@ -23,11 +23,11 @@ function RegisterRoomDescription() {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Box p="62px 30px 100px">
+      <Box p="62px 30px 100px" color="myColor.100">
         <Text as="h2" fontSize="24px" fontWeight="800" mb="50px">
           추가로 원하시는게 있나요?
         </Text>
-        <Text as="h3" fontWeight="bold" mb="6px" color="gray.700">
+        <Text as="h3" fontWeight="bold" mb="6px">
           Step 7.
         </Text>
         <Text
@@ -47,13 +47,13 @@ function RegisterRoomDescription() {
             placeholder="원하시는 사항을 입력해주세요"
           />
         </Box>
-        <RegisterFooter
-          prevLink="/room/register/photo"
-          nextLink="/room/register/price"
-          isValid={true}
-          onSubmit={onSubmit}
-        />
       </Box>
+      <RegisterFooter
+        prevLink="/room/register/photo"
+        nextLink="/room/register/price"
+        isValid={true}
+        onSubmit={onSubmit}
+      />
     </form>
   );
 }

@@ -78,9 +78,9 @@ function SearchRoomGuest() {
     <Box
       position="relative"
       width="100%"
-      height="70px"
+      height="200px"
       _hover={{
-        bgColor: 'gray.300',
+        bgColor: 'myColor.300',
       }}
       borderRadius="12px"
     >
@@ -99,6 +99,7 @@ function SearchRoomGuest() {
             인원
           </Text>
           <Input
+            color="black"
             cursor="pointer"
             w={isLogged ? '70%' : '45%'}
             border="0"
@@ -117,9 +118,9 @@ function SearchRoomGuest() {
             isLoading={!isLogged}
             loadingText="로그인하세요."
             size="md"
-            top="14px"
+            top="25px"
             right="10px"
-            colorScheme="pink"
+            colorScheme="facebook"
             leftIcon={<SearchIcon />}
           >
             검색

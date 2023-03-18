@@ -112,11 +112,11 @@ function RegisterRoomGeometry() {
         handleSubmit(onSubmit)();
       }}
     >
-      <Box p="62px 30px 100px">
+      <Box p="62px 30px 100px" color="myColor.100">
         <Text as="h2" fontSize="24px" fontWeight="800" mb="50px">
           핀의 위치가 정확한가요?
         </Text>
-        <Text as="h3" fontWeight="bold" mb="6px" color="gray.700">
+        <Text as="h3" fontWeight="bold" mb="6px">
           Step 4-2.
         </Text>
         <Text
@@ -131,7 +131,13 @@ function RegisterRoomGeometry() {
         <Box w="487px" h="280px" mt="24px">
           <div style={{ width: '100%', height: '100%' }} ref={mapRef} />
         </Box>
-        <Text as="p" fontSize="14px" mt="22px">
+        <Text
+          as="p"
+          fontSize="14px"
+          mt="22px"
+          fontWeight="extrabold"
+          color="pink.700"
+        >
           현재 위치를 사용한 경우에만 이용 가능합니다.
         </Text>
       </Box>

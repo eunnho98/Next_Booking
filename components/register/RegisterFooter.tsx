@@ -22,7 +22,7 @@ function RegisterFooter({ prevLink, nextLink, onSubmit, isValid }: IProps) {
       bottom="0"
       justify="space-between"
       align="center"
-      width="548px"
+      width="100%"
       height="82px"
       p="14px 30px 20px"
       bgColor="white"
@@ -30,7 +30,7 @@ function RegisterFooter({ prevLink, nextLink, onSubmit, isValid }: IProps) {
       borderTop="1px solid gray"
     >
       <Link href={prevLink || ''}>
-        <Button type="button" colorScheme="gray">
+        <Button type="button" colorScheme="gray" color="black">
           뒤로
         </Button>
       </Link>

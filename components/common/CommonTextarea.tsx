@@ -20,6 +20,7 @@ function CommonTextarea({ control, name, placeholder }: TControl<any>) {
   return (
     <Box borderColor="cyan.800" bgColor="gray.100">
       <Textarea
+        color="black"
         placeholder={placeholder}
         value={value}
         onBlur={onBlur}

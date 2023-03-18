@@ -24,6 +24,7 @@ function RegisterRoomPhoto({ images }: IProps) {
   };
 
   const settings = {
+    arrows: false,
     dots: true,
     infinite: true,
     speed: 500,
@@ -36,11 +37,11 @@ function RegisterRoomPhoto({ images }: IProps) {
 
   return (
     <form>
-      <Box p="62px 30px 100px">
+      <Box p="62px 30px 100px" color="myColor.100">
         <Text as="h2" fontSize="24px" fontWeight="800" mb="50px">
           숙소 사진
         </Text>
-        <Text as="h3" fontWeight="bold" mb="6px" color="gray.700">
+        <Text as="h3" fontWeight="bold" mb="6px">
           Step 6.
         </Text>
         <Text
@@ -57,14 +58,13 @@ function RegisterRoomPhoto({ images }: IProps) {
             <Image src={img} w="300px" h="200px" borderRadius="4px" />
           ))}
         </Slider>
-
-        <RegisterFooter
-          prevLink="/room/register/amentities"
-          nextLink="/room/register/description"
-          isValid={true}
-          onSubmit={onSubmit}
-        />
       </Box>
+      <RegisterFooter
+        prevLink="/room/register/amentities"
+        nextLink="/room/register/description"
+        isValid={true}
+        onSubmit={onSubmit}
+      />
     </form>
   );
 }

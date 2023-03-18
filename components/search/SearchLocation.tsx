@@ -43,12 +43,12 @@ function SearchLocation() {
       onClick={() => setOpened(true)}
       position="relative"
       width="100%"
-      height="70px"
+      height="200px"
       border="2px solid transparent"
       borderRadius="12px"
       cursor="pointer"
       _hover={{
-        bgColor: 'gray.300',
+        bgColor: 'myColor.300',
       }}
     >
       <Box position="absolute" width="calc(100% - 40px)" top="12px" left="20px">
@@ -56,6 +56,7 @@ function SearchLocation() {
           여행지
         </Text>
         <Input
+          color="black"
           type="text"
           w="100%"
           border="0"
@@ -76,7 +77,7 @@ function SearchLocation() {
           position="absolute"
           bgColor="white"
           top="78px"
-          width="500px"
+          width="400px"
           p="16px 0"
           boxShadow="0 6px 20px rgba(0,0,0,0.2)"
           borderRadius="32px"
@@ -86,6 +87,7 @@ function SearchLocation() {
         >
           {!location.location && (
             <ListItem
+              color="black"
               display="flex"
               alignItems="center"
               height="64px"
@@ -98,6 +100,7 @@ function SearchLocation() {
           {results.length !== 0 &&
             results.map((result, idx) => (
               <ListItem
+                color="black"
                 display="flex"
                 alignItems="center"
                 height="64px"

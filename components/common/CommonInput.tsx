@@ -67,6 +67,7 @@ function CommonInput({
         <InputGroup>
           <InputLeftAddon h="50px" children={icons} outline="none" />
           <Input
+            color="black"
             type={type}
             placeholder={placeholder}
             value={value || ''}

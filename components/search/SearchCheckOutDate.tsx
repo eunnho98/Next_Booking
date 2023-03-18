@@ -16,11 +16,11 @@ function SearchCheckOutDate() {
     <Box
       position="relative"
       width="100%"
-      height="70px"
+      height="200px"
       border="2px solid transparent"
       borderRadius="12px"
       _hover={{
-        bgColor: 'gray.300',
+        bgColor: 'myColor.300',
       }}
     >
       <Box position="absolute" width="calc(100% - 40px)" top="12px" left="20px">
@@ -44,6 +44,7 @@ function SearchCheckOutDate() {
           placeholderText="날짜 추가"
           customInput={
             <Input
+              color="black"
               cursor="pointer"
               w="100%"
               border="0"

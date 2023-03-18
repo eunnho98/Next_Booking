@@ -110,11 +110,11 @@ function RegisterRoomLocation() {
         handleSubmit(onSubmit)();
       }}
     >
-      <Box p="62px 30px 100px">
+      <Box p="62px 30px 100px" color="myColor.100">
         <Text as="h2" fontSize="24px" fontWeight="800" mb="50px">
           어디서 묵으실 건가요?
         </Text>
-        <Text as="h3" fontWeight="bold" mb="6px" color="gray.700">
+        <Text as="h3" fontWeight="bold" mb="6px">
           Step 4-1.
         </Text>
         <Text
@@ -128,7 +128,7 @@ function RegisterRoomLocation() {
         </Text>
         <Box w="176px" mb="24px">
           <Button
-            colorScheme="pink"
+            colorScheme="facebook"
             variant="solid"
             leftIcon={<BellIcon />}
             onClick={onClickCurrentLocation}
@@ -282,16 +282,17 @@ function RegisterRoomLocation() {
             }}
           />
         </Box>
-        <RegisterFooter
-          prevLink="/room/register/bathroom"
-          nextLink="/room/register/geometry"
-          onSubmit={onSubmit}
-          isValid={valid}
-        />
-        <Text as="p" fontSize="14px">
+
+        <Text as="p" fontSize="14px" fontWeight="extrabold" color="pink.700">
           현재 특별시 및 광역시는 현재 위치 불러오기가 불가능합니다.
         </Text>
       </Box>
+      <RegisterFooter
+        prevLink="/room/register/bathroom"
+        nextLink="/room/register/geometry"
+        onSubmit={onSubmit}
+        isValid={valid}
+      />
     </form>
   );
 }

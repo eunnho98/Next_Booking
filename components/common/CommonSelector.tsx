@@ -51,6 +51,8 @@ function CommonSelector({
   return (
     <Box width="100%" height="50px">
       <Select
+        color="black"
+        variant="filled"
         fontSize="16px"
         cursor="pointer"
         width="100%"

@@ -33,11 +33,11 @@ function RegisterRoomAmentities() {
         handleSubmit(onSubmit)();
       }}
     >
-      <Box p="62px 30px 100px">
+      <Box p="62px 30px 100px" color="myColor.100">
         <Text as="h2" fontSize="24px" fontWeight="800" mb="50px">
           편의 시설을 선택해주세요.
         </Text>
-        <Text as="h3" fontWeight="bold" mb="6px" color="gray.700">
+        <Text as="h3" fontWeight="bold" mb="6px">
           Step 5.
         </Text>
         <Text

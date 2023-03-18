@@ -35,7 +35,7 @@ function CommonRadioGroup({
 
   return (
     <Box>
-      <Text fontSize="16px" fontWeight="600" color="gray.600" mb="32px">
+      <Text fontSize="16px" fontWeight="600" mb="32px">
         {label}
       </Text>
       <RadioGroup
@@ -82,7 +82,7 @@ function CommonRadioGroup({
       {!checked && (
         <Stack direction="row" mt="8px" alignItems="center">
           <Icon as={WarningIcon} />
-          <Text as="p" fontSize="12px" color="orange.300">
+          <Text as="p" fontSize="12px" color="pink.600" fontWeight="extrabold">
             옵션을 선택해주세요.
           </Text>
         </Stack>

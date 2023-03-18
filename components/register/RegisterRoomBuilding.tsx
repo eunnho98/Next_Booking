@@ -76,18 +76,19 @@ function RegisterRoomBuilding() {
   };
 
   return (
-    <Box p="62px 30px 100px">
-      <Text as="h2" fontSize="24px" fontWeight="800" mb="50px">
-        등록할 숙소 종류는 무엇인가요?
-      </Text>
-      <Text as="h3" fontWeight="bold" mb="6px" color="gray.700">
-        Step 1.
-      </Text>
-      <form
-        onSubmit={() => {
-          handleSubmit(onSubmit)();
-        }}
-      >
+    <form
+      onSubmit={() => {
+        handleSubmit(onSubmit)();
+      }}
+    >
+      <Box p="62px 30px 100px" color="myColor.100">
+        <Text as="h2" fontSize="24px" fontWeight="800" mb="50px">
+          등록할 숙소 종류는 무엇인가요?
+        </Text>
+        <Text as="h3" fontWeight="bold" mb="6px">
+          Step 1.
+        </Text>
+
         <FormControl w="320px" mb="40px">
           <FormLabel>우선 범위를 좁혀볼까요?</FormLabel>
           <CommonSelector
@@ -150,14 +151,14 @@ function RegisterRoomBuilding() {
             />
           </Box>
         )}
-        <RegisterFooter
-          prevLink="/"
-          nextLink="/room/register/bedrooms"
-          onSubmit={onSubmit}
-          isValid={isValid}
-        />
-      </form>
-    </Box>
+      </Box>
+      <RegisterFooter
+        prevLink="/home"
+        nextLink="/room/register/bedrooms"
+        onSubmit={onSubmit}
+        isValid={isValid}
+      />
+    </form>
   );
 }
 

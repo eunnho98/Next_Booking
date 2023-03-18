@@ -76,7 +76,7 @@ function Header() {
               border="0"
               boxShadow="0px 1px 2px rgba(0, 0, 0, 0.18)"
               borderRadius="21px"
-              colorScheme="pink"
+              colorScheme="facebook"
               onClick={() => setIsUserMenuOpened((prev) => !prev)}
             >
               <Avatar src={userImage} size="sm" />
@@ -86,8 +86,8 @@ function Header() {
                 <Box position="relative">
                   <UnorderedList
                     position="absolute"
-                    left="20"
-                    top="-14"
+                    top="3"
+                    right="1"
                     width="180px"
                     bgColor="white"
                     boxShadow="0 2px 16px rgba(0, 0, 0, 0.12)"

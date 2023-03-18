@@ -38,7 +38,7 @@ function Counter({
       justifyContent="space-evenly"
       alignItems="center"
     >
-      <Text fontSize="16px" color="blackAlpha.800" fontWeight="600">
+      <Text fontSize="16px" color="myColor.100" fontWeight="600">
         {label}
         {description && (
           <span
@@ -59,13 +59,14 @@ function Counter({
         w="120px"
       >
         <Button
-          variant="outline"
+          variant="solid"
           type="button"
           color="black"
+          fontWeight="bold"
           size="sm"
           borderRadius="50%"
           outline="none"
-          colorScheme="red"
+          colorScheme="gray"
           isDisabled={value === minValue}
           _disabled={{
             opacity: '0.3',
@@ -85,15 +86,16 @@ function Counter({
         >
           -
         </Button>
-        <Text>{value}</Text>
+        <Text fontWeight="bold">{value}</Text>
         <Button
-          variant="outline"
+          variant="solid"
           color="black"
+          fontWeight="bold"
           type="button"
           size="sm"
           borderRadius="50%"
           outline="none"
-          colorScheme="red"
+          colorScheme="gray"
           _disabled={{
             opacity: '0.3',
             cursor: 'not-allowed',
