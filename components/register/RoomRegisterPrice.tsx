@@ -59,12 +59,12 @@ function RoomRegisterPrice() {
 
   return (
     <form>
-      <Box p="62px 30px 100px">
+      <Box p="62px 30px 100px" color="myColor.100">
         <Text as="h2" fontSize="24px" fontWeight="800" mb="50px">
           결제하기
         </Text>
-        <Text as="h3" fontWeight="bold" mb="6px" color="gray.700">
-          Step 7.
+        <Text as="h3" fontWeight="bold" mb="6px">
+          Step 8.
         </Text>
         <Text
           as="p"
@@ -135,20 +135,18 @@ function RoomRegisterPrice() {
           </CardBody>
         </Card>
       </Box>
-      {/* <Button
-        onClick={() => {
-          handlePayment();
-          console.log('sdks?');
-        }}
-      >
-        결제
-      </Button> */}
+
       <RegisterFooter
         prevLink="/room/register/description"
         onSubmit={onSubmit}
         isValid={true}
       />
-      <PurchaseModal isOpen={isOpen} onClose={onClose} diffDate={diffDate} />
+      <PurchaseModal
+        isOpen={isOpen}
+        onClose={onClose}
+        diffDate={diffDate}
+        from="purchase"
+      />
     </form>
   );
 }

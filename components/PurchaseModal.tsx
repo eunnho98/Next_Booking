@@ -1,6 +1,6 @@
 import { dateState, initialState } from '@/atom/atom';
 import { guestNum, roomState } from '@/atom/registerRoom';
-import { saveBedsAPI, SaveDataAPI } from '@/lib/api/file';
+import { saveBedsAPI, SaveDataAPI, updatePurchaseAPI } from '@/lib/api/file';
 import { RequestPayParams, RequestPayResponse } from '@/lib/type';
 import {
   Box,
@@ -42,9 +42,11 @@ interface IProps {
   isOpen: boolean;
   onClose: () => void;
   diffDate: number;
+  from: string;
+  roomId?: number;
 }
 
-function PurchaseModal({ isOpen, onClose, diffDate }: IProps) {
+function PurchaseModal({ isOpen, onClose, diffDate, from, roomId }: IProps) {
   const toast = useToast();
   const router = useRouter();
   const { IMP } = window;
@@ -109,6 +111,14 @@ function PurchaseModal({ isOpen, onClose, diffDate }: IProps) {
         }
       },
     );
+  };
+
+  const onClickMyPage = async () => {
+    try {
+      if (roomId !== undefined) {
+        await updatePurchaseAPI({ id: roomId, purchase: true });
+      }
+    } catch (error) {}
   };
 
   const onClick = async (purchase: boolean) => {
@@ -193,7 +203,11 @@ function PurchaseModal({ isOpen, onClose, diffDate }: IProps) {
                 colorScheme="red"
                 onClick={() => {
                   handlePayment('html5_inicis');
-                  onClick(true);
+                  if (from === 'purchase') {
+                    onClick(true);
+                  } else {
+                    onClickMyPage();
+                  }
                 }}
               >
                 결제하기
@@ -205,7 +219,11 @@ function PurchaseModal({ isOpen, onClose, diffDate }: IProps) {
                 }}
                 onClick={() => {
                   handlePayment('kakaopay');
-                  onClick(true);
+                  if (from === 'purchase') {
+                    onClick(true);
+                  } else {
+                    onClickMyPage();
+                  }
                 }}
               >
                 카카오페이
@@ -218,20 +236,26 @@ function PurchaseModal({ isOpen, onClose, diffDate }: IProps) {
                 }}
                 onClick={() => {
                   handlePayment('tosspay');
-                  onClick(true);
+                  if (from === 'purchase') {
+                    onClick(true);
+                  } else {
+                    onClickMyPage();
+                  }
                 }}
               >
                 토스페이
               </Button>
             </ModalFooter>
             <ModalFooter>
-              <Button
-                onClick={() => {
-                  onClick(false);
-                }}
-              >
-                담기
-              </Button>
+              {from === 'purchase' && (
+                <Button
+                  onClick={() => {
+                    onClick(false);
+                  }}
+                >
+                  담기
+                </Button>
+              )}
             </ModalFooter>
           </ModalContent>
         </form>
