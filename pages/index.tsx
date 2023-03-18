@@ -1,99 +1,75 @@
-import { InferGetServerSidePropsType, NextPageContext } from 'next';
-import {
-  Box,
-  Text,
-  SimpleGrid,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Heading,
-  Image,
-  Divider,
-} from '@chakra-ui/react';
-import Header from '@/components/Header';
-import SearchBar from '@/components/SearchBar';
+import React, { useEffect, useState } from 'react';
+import { throttle } from 'lodash';
+import { Box, Button, Heading, Image, Text } from '@chakra-ui/react';
+import Link from 'next/link';
 
-export default function Home({
-  accessToken,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+function index() {
+  const [width, setWidth] = useState(0);
+  const [isValid, setIsValid] = useState(false);
+
+  const handleResize = throttle(() => {
+    setWidth(window.innerWidth);
+  }, 200);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      // cleanup
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (width >= 560 && width <= 600) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [width]);
   return (
-    <Box width="100%" p="0 80px">
-      <Text m="32px 0 16px" fontSize="md" fontWeight="600">
-        숙소
+    <Box bgColor="cyan.400" h="100vh">
+      <Heading textAlign="center" fontSize="6xl" color="whiteAlpha.900">
+        Booking Web!
+      </Heading>
+      <Image src="/home/booking3.png" w="320px" m="auto" pt="8vh" />
+      <Text
+        textAlign="center"
+        fontWeight="bold"
+        color="whiteAlpha.900"
+        fontSize="3xl"
+        pl="48px"
+        pr="48px"
+        mb="96px"
+      >
+        사이트를 이용하기 위한 최적의 화면 크기를 찾아주세요!
       </Text>
-      <SearchBar />
-      <Text width="557px" m="80px 0 40px" fontSize="4xl" color="red.400">
-        가까운 여행지, 에어비앤비와 함께하세요.
+
+      <Link href="/home">
+        <Button
+          textAlign="center"
+          display="block"
+          size="lg"
+          isDisabled={!isValid}
+          m="auto"
+        >
+          예약하러 가볼까요?
+        </Button>
+      </Link>
+      <Text
+        mt="24px"
+        textAlign="center"
+        fontWeight="bold"
+        fontSize="2xl"
+        color="whiteAlpha.900"
+      >
+        {width < 500
+          ? '창이 너무 작아요'
+          : width > 600
+          ? '창이 너무 커요'
+          : '좋아요!'}
       </Text>
-      <SimpleGrid columns={3} ml="32px">
-        <Card
-          maxWidth="400px"
-          height="450px"
-          minWidth="xs"
-          boxShadow="0px 4px 8px rgba(0,0,0,0.08)"
-        >
-          <CardHeader>
-            <Heading size="md"> 가까운 여행지</Heading>
-          </CardHeader>
-          <CardBody>
-            <Image src="/home/home_card_image_1.jpg" borderRadius="lg" />
-          </CardBody>
-
-          <CardFooter
-            position="relative"
-            bottom="30px"
-            display="flex"
-            justifyContent="center"
-          >
-            <Text>가까운 여행지에서 휴식을 즐기세요.</Text>
-          </CardFooter>
-        </Card>
-        <Card
-          maxWidth="400px"
-          height="450px"
-          minWidth="xs"
-          boxShadow="0px 4px 8px rgba(0,0,0,0.08)"
-        >
-          <CardHeader>
-            <Heading size="md">독특한 공간</Heading>
-          </CardHeader>
-          <CardBody>
-            <Image src="/home/home_card_image_2.jpg" borderRadius="lg" />
-          </CardBody>
-
-          <CardFooter
-            position="relative"
-            bottom="30px"
-            display="flex"
-            justifyContent="center"
-          >
-            <Text>평범하지 않은, 특별함이 담긴 공간</Text>
-          </CardFooter>
-        </Card>
-        <Card
-          maxWidth="400px"
-          height="450px"
-          minWidth="xs"
-          boxShadow="0px 4px 8px rgba(0,0,0,0.08)"
-        >
-          <CardHeader>
-            <Heading size="md">누군가의 집</Heading>
-          </CardHeader>
-          <CardBody>
-            <Image src="/home/home_card_image_3.jpg" borderRadius="lg" />
-          </CardBody>
-          <CardFooter
-            position="relative"
-            bottom="20px"
-            display="flex"
-            justifyContent="center"
-          >
-            <Text>편안한 공간에서 친구/가족과 즐거운 시간을 보내세요.</Text>
-          </CardFooter>
-        </Card>
-      </SimpleGrid>
     </Box>
   );
 }
+
+export default index;
