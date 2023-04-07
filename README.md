@@ -16,3 +16,7 @@
 
 - 유저는 여러 숙소를 예약할 수 있는데 아직 1:1 관계만 -> api 수정 필요
 - 이미 예약한 숙소 수정 기능 필요
+
+## 데모 영상
+
+https://www.youtube.com/watch?v=GnkQ-PiFlJM
